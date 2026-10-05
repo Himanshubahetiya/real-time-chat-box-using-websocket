@@ -1,6 +1,5 @@
 fastapi
-uvicorn
-python-jose
 uvicorn[standard]
+python-jose
 sqlalchemy
 pwdlib[argon2]

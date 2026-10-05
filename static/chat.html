@@ -977,15 +977,20 @@ async function backToPublic() {
    WEBSOCKET
 ========================================================= */
 
-const ws =
-    new WebSocket(
+// const ws =
+//     new WebSocket(
 
-        `ws://${location.hostname}:8000/ws?token=${
-            encodeURIComponent(token)
-        }`
+//         `ws://${location.hostname}:8000/ws?token=${
+//             encodeURIComponent(token)
+//         }`
 
-    );
+//     );
 
+const protocol = location.protocol === "https:" ? "wss:" : "ws:";
+
+const ws = new WebSocket(
+    `${protocol}//${location.host}/ws?token=${encodeURIComponent(token)}`
+);
 
 /* =========================================================
    INITIAL PUBLIC LOAD
