@@ -1,1270 +1,1875 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="style.css">
-
-  <style>
-
-    /* ================================================= */
-    /* =============== PRIVATE CHAT ==================== */
-    /* ================================================= */
-
-    .private-header {
-
-      display: none;
-
-      align-items: center;
-
-      gap: 12px;
-
-      height: 64px;
-
-      padding: 0 15px;
-
-      background: #f5f5f5;
-
-      border-bottom: 1px solid #ddd;
-
-    }
-
-
-    /* Back button */
-
-    .back-btn {
-
-      border: none;
-
-      background: transparent;
-
-      font-size: 24px;
-
-      color: #111;
-
-      cursor: pointer;
-
-      width: 32px;
-      height: 32px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-    }
-
-
-    /* User information */
-
-    .private-user-info {
-
-      display: flex;
-
-      flex-direction: column;
-
-      justify-content: center;
-
-    }
-
-
-    /* Private username */
-
-    .private-user-name {
-
-      font-weight: 600;
-
-      font-size: 17px;
-
-      color: #111;
-
-    }
-
-
-    /* Online status */
-
-    .private-status {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 5px;
-
-      font-size: 12px;
-
-      color: #777;
-
-      margin-top: 2px;
-
-    }
-
-
-    /* Online dot */
-
-    .online-dot {
-
-      width: 8px;
-
-      height: 8px;
-
-      background: #25d366;
-
-      border-radius: 50%;
-
-    }
-
-
-    /* ================================================= */
-    /* =============== ONLINE USERS ==================== */
-    /* ================================================= */
-
-    #users {
-
-      list-style: none;
-
-      padding: 0;
-
-      margin: 5px 0;
-
-      display: flex;
-
-      gap: 8px;
-
-      flex-wrap: wrap;
-
-    }
-
-
-    #users li {
-
-      cursor: pointer;
-
-      padding: 7px 12px;
-
-      background: #25d366;
-
-      color: white;
-
-      border-radius: 15px;
-
-      transition: background 0.2s ease;
-
-    }
-
-
-    #users li:hover {
-
-      background: #20bd5a;
-
-    }
-
-  </style>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* ================================================= */
+        /* =============== PRIVATE CHAT ==================== */
+        /* ================================================= */
+
+        .private-header {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            height: 64px;
+            padding: 0 15px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Back button */
+
+        .back-btn {
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            color: #111;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* User information */
+
+        .private-user-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Private username */
+
+        .private-user-name {
+            font-weight: 600;
+            font-size: 17px;
+            color: #111;
+        }
+
+        /* Online status */
+
+        .private-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #777;
+            margin-top: 2px;
+        }
+
+        /* Online dot */
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #25d366;
+            border-radius: 50%;
+        }
+
+
+        /* ================================================= */
+        /* =============== ONLINE USERS ==================== */
+        /* ================================================= */
+
+        #users {
+            list-style: none;
+            padding: 0;
+            margin: 5px 0;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        #users li {
+            cursor: pointer;
+            padding: 7px 12px;
+            background: #25d366;
+            color: white;
+            border-radius: 15px;
+            transition: background 0.2s ease;
+        }
+
+        #users li:hover {
+            background: #20bd5a;
+        }
+
+    </style>
 
 </head>
 
 
 <body>
 
-
 <div class="app">
 
 
-  <!-- ================================================= -->
-  <!-- ================= MAIN HEADER =================== -->
-  <!-- ================================================= -->
+    <!-- ================================================= -->
+    <!-- ================= MAIN HEADER =================== -->
+    <!-- ================================================= -->
 
-  <div class="header">
+    <div class="header">
 
-    <span id="main-title">
-      Realtime Chat
-    </span>
+        <span id="main-title">
+            Realtime Chat
+        </span>
 
-    <button
-      class="logout-btn"
-      onclick="logout()"
-    >
-      Logout
-    </button>
-
-  </div>
-
-
-  <!-- ================================================= -->
-  <!-- ============== PRIVATE CHAT HEADER ============== -->
-  <!-- ================================================= -->
-
-  <div
-    id="private-header"
-    class="private-header"
-  >
-
-    <button
-      class="back-btn"
-      onclick="backToPublic()"
-    >
-      ←
-    </button>
-
-
-    <div class="private-user-info">
-
-      <div
-        id="private-user-name"
-        class="private-user-name"
-      >
-      </div>
-
-
-      <div class="private-status">
-
-        <span class="online-dot"></span>
-
-        Online
-
-      </div>
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
+            Logout
+        </button>
 
     </div>
 
-  </div>
 
+    <!-- ================================================= -->
+    <!-- ============== PRIVATE CHAT HEADER ============== -->
+    <!-- ================================================= -->
 
-  <!-- ================================================= -->
-  <!-- ================= ONLINE USERS =================== -->
-  <!-- ================================================= -->
-
-  <div class="users-bar">
-
-    <span>
-      Online Users:
-    </span>
-
-    <ul id="users"></ul>
-
-  </div>
-
-
-  <!-- ================================================= -->
-  <!-- ================= TYPING ======================== -->
-  <!-- ================================================= -->
-
-  <div id="typing"></div>
-
-
-  <!-- ================================================= -->
-  <!-- ================= CHAT AREA ===================== -->
-  <!-- ================================================= -->
-
-  <div id="chat"></div>
-
-
-  <!-- ================================================= -->
-  <!-- ================= INPUT BAR ===================== -->
-  <!-- ================================================= -->
-
-  <div class="chat-input-bar">
-
-    <input
-      id="msg"
-      placeholder="Message"
+    <div
+        id="private-header"
+        class="private-header"
     >
 
-
-    <!-- Attachment -->
-
-    <label class="file-btn">
-
-      📎
-
-      <input
-        type="file"
-        onchange="sendImage(this)"
-      >
-
-    </label>
+        <button
+            class="back-btn"
+            onclick="backToPublic()"
+        >
+            ←
+        </button>
 
 
-    <!-- Send -->
+        <div class="private-user-info">
 
-    <button onclick="send()">
-      ➤
-    </button>
+            <div
+                id="private-user-name"
+                class="private-user-name"
+            >
+            </div>
 
-  </div>
 
+            <div class="private-status">
+
+                <span class="online-dot"></span>
+
+                Online
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ================= ONLINE USERS =================== -->
+    <!-- ================================================= -->
+
+    <div class="users-bar">
+
+        <span>
+            Online Users:
+        </span>
+
+        <ul id="users"></ul>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ================= TYPING ======================== -->
+    <!-- ================================================= -->
+
+    <div id="typing"></div>
+
+
+    <!-- ================================================= -->
+    <!-- ================= CHAT AREA ===================== -->
+    <!-- ================================================= -->
+
+    <div id="chat"></div>
+
+
+    <!-- ================================================= -->
+    <!-- ================= INPUT BAR ===================== -->
+    <!-- ================================================= -->
+
+    <div class="chat-input-bar">
+
+        <input
+            id="msg"
+            placeholder="Message"
+            autocomplete="off"
+        >
+
+
+        <!-- Attachment -->
+
+        <label class="file-btn">
+
+            📎
+
+            <input
+                type="file"
+                accept="image/*"
+                onchange="sendImage(this)"
+            >
+
+        </label>
+
+
+        <!-- Send -->
+
+        <button onclick="send()">
+            ➤
+        </button>
+
+    </div>
 
 </div>
 
 
+```html
 <script>
 
+/* =========================================================
+   AUTH
+========================================================= */
 
-/* ================================================= */
-/* ================= AUTH =========================== */
-/* ================================================= */
-
-
-const token =
-  localStorage.getItem("token");
-
+const token = localStorage.getItem("token");
 
 if (!token) {
-
-  window.location =
-    "/static/auth.html";
-
+    window.location = "/static/auth.html";
 }
 
 
-/* Decode JWT */
+/* =========================================================
+   DECODE JWT
+========================================================= */
 
-const payload =
-  JSON.parse(
-    atob(token.split(".")[1])
-  );
+let payload;
+
+try {
+
+    payload = JSON.parse(
+        atob(token.split(".")[1])
+    );
+
+}
+catch (error) {
+
+    console.error("Invalid token");
+
+    localStorage.removeItem("token");
+
+    window.location = "/static/auth.html";
+}
 
 
-const myName =
-  payload.username;
+/* =========================================================
+   CURRENT USER
+========================================================= */
 
-
-/* ================================================= */
-/* ============== CURRENT CHAT ===================== */
-/* ================================================= */
+const myName = payload.username;
 
 
 /*
-  null
-  ↓
-  Public chat
+    selectedUser = null
+        ↓
+    GROUP CHAT
 
-
-  "Rahul"
-  ↓
-  Private chat with Rahul
+    selectedUser = "Rahul"
+        ↓
+    PRIVATE CHAT WITH RAHUL
 */
-
 
 let selectedUser = null;
 
 
-/* ================================================= */
-/* ================= DOM ============================ */
-/* ================================================= */
-
+/* =========================================================
+   DOM
+========================================================= */
 
 const users =
-  document.getElementById("users");
-
+    document.getElementById("users");
 
 const chat =
-  document.getElementById("chat");
-
+    document.getElementById("chat");
 
 const msg =
-  document.getElementById("msg");
-
+    document.getElementById("msg");
 
 const typing =
-  document.getElementById("typing");
-
+    document.getElementById("typing");
 
 const privateHeader =
-  document.getElementById("private-header");
-
+    document.getElementById("private-header");
 
 const privateUserName =
-  document.getElementById(
-    "private-user-name"
-  );
-
+    document.getElementById(
+        "private-user-name"
+    );
 
 const mainTitle =
-  document.getElementById(
-    "main-title"
-  );
+    document.getElementById(
+        "main-title"
+    );
 
 
-/* ================================================= */
-/* ============ LOAD PUBLIC MESSAGES =============== */
-/* ================================================= */
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
 
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollChat() {
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+
+/* =========================================================
+   IMAGE RENDER
+========================================================= */
+
+function renderImage(
+    url,
+    sender,
+    isMine = false
+) {
+
+    return `
+
+        <div
+            class="message-row ${
+                isMine
+                    ? "message-right"
+                    : "message-left"
+            }"
+        >
+
+            <div class="message-bubble">
+
+                <span class="message-sender">
+
+                    ${
+                        isMine
+                            ? "You"
+                            : escapeHtml(sender)
+                    }
+
+                </span>
+
+                <br>
+
+                <img
+
+                    src="${escapeHtml(url)}"
+
+                    width="150"
+
+                    style="
+                        max-width: 250px;
+                        max-height: 300px;
+                        border-radius: 10px;
+                        margin-top: 5px;
+                        cursor: pointer;
+                        object-fit: contain;
+                    "
+
+                    onclick="
+                        window.open(
+                            this.src,
+                            '_blank'
+                        )
+                    "
+
+                >
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================================
+   LOAD PUBLIC / GROUP MESSAGES
+========================================================= */
 
 async function loadMessages() {
 
-  try {
-
-    const response =
-      await fetch("/messages");
-
-
-    if (!response.ok) {
-
-      console.log(
-        "Failed to load messages"
-      );
-
-      return;
-
-    }
-
-
-    const messages =
-      await response.json();
-
-
-    chat.innerHTML = "";
-
-
-    messages.forEach(message => {
-
-      chat.innerHTML += `
-
-        <p>
-
-          <b>
-            ${message.sender}
-          </b>
-
-          ${message.message}
-
-        </p>
-
-      `;
-
-    });
-
-
-    chat.scrollTop =
-      chat.scrollHeight;
-
-
-  }
-
-  catch (error) {
-
-    console.log(
-      "Error loading messages:",
-      error
-    );
-
-  }
-
-}
-
-
-/* ================================================= */
-/* ============ LOAD PRIVATE MESSAGES ============== */
-/* ================================================= */
-
-
-async function loadPrivateMessages(
-  username
-) {
-
-  try {
-
-    const response =
-      await fetch(
-        `/private-messages/${username}`
-      );
-
-
-    if (!response.ok) {
-
-      console.log(
-        "Failed to load private messages"
-      );
-
-      return;
-
-    }
-
-
-    const messages =
-      await response.json();
-
-
-    chat.innerHTML = "";
-
-
-    messages.forEach(message => {
-
-
-      /* ========================================= */
-      /* ============== MY MESSAGE =============== */
-      /* ========================================= */
-
-
-      if (
-        message.sender === myName
-      ) {
-
-        chat.innerHTML += `
-
-          <div class="message-row message-right">
-
-            <div class="message-bubble">
-
-              <span class="message-sender">
-                You
-              </span>
-
-              <span class="message-text">
-                ${message.message}
-              </span>
-
-            </div>
-
-          </div>
-
-        `;
-
-      }
-
-
-      /* ========================================= */
-      /* =========== OTHER USER MESSAGE ========== */
-      /* ========================================= */
-
-
-      else {
-
-        chat.innerHTML += `
-
-          <div class="message-row message-left">
-
-            <div class="message-bubble">
-
-              <span class="message-sender">
-                ${message.sender}
-              </span>
-
-              <span class="message-text">
-                ${message.message}
-              </span>
-
-            </div>
-
-          </div>
-
-        `;
-
-      }
-
-    });
-
-
-    chat.scrollTop =
-      chat.scrollHeight;
-
-
-  }
-
-  catch (error) {
-
-    console.log(
-      "Error loading private messages:",
-      error
-    );
-
-  }
-
-}
-
-
-/* ================================================= */
-/* ============== OPEN PRIVATE CHAT ================ */
-/* ================================================= */
-
-
-async function openPrivateChat(
-  username
-) {
-
-  selectedUser =
-    username;
-
-
-  /* Change main title */
-
-  mainTitle.innerText =
-    "Private Chat";
-
-
-  /* Show selected user */
-
-  privateUserName.innerText =
-    username;
-
-
-  /* Show private header */
-
-  privateHeader.style.display =
-    "flex";
-
-
-  /* Hide online users */
-
-  document
-    .querySelector(".users-bar")
-    .style.display = "none";
-
-
-  /* Clear typing */
-
-  typing.innerText = "";
-
-
-  /* Load private history */
-
-  await loadPrivateMessages(
-    username
-  );
-
-
-  /* Focus input */
-
-  msg.focus();
-
-}
-
-
-/* ================================================= */
-/* ============== BACK TO PUBLIC =================== */
-/* ================================================= */
-
-
-async function backToPublic() {
-
-  selectedUser = null;
-
-
-  /* Change title */
-
-  mainTitle.innerText =
-    "Realtime Chat";
-
-
-  /* Hide private header */
-
-  privateHeader.style.display =
-    "none";
-
-
-  /* Show users */
-
-  document
-    .querySelector(".users-bar")
-    .style.display = "flex";
-
-
-  /* Clear typing */
-
-  typing.innerText = "";
-
-
-  /* Load public messages */
-
-  await loadMessages();
-
-
-  /* Focus input */
-
-  msg.focus();
-
-}
-
-
-/* ================================================= */
-/* ================= WEBSOCKET ===================== */
-/* ================================================= */
-
-
-const ws =
-  new WebSocket(
-
-    `ws://${location.hostname}:8000/ws?token=${token}`
-
-  );
-
-
-/* Load public messages */
-
-loadMessages();
-
-
-/* ================================================= */
-/* ================= WS OPEN ======================= */
-/* ================================================= */
-
-
-ws.onopen = () => {
-
-  console.log(
-    "WebSocket connected"
-  );
-
-};
-
-
-/* ================================================= */
-/* ================= WS CLOSE ====================== */
-/* ================================================= */
-
-
-ws.onclose = () => {
-
-  console.log(
-    "WebSocket closed"
-  );
-
-};
-
-
-/* ================================================= */
-/* ================= RECEIVE ======================= */
-/* ================================================= */
-
-
-ws.onmessage = e => {
-
-  const data =
-    JSON.parse(e.data);
-
-
-  /* ============================================== */
-  /* ================ ONLINE USERS ================ */
-  /* ============================================== */
-
-
-  if (
-    data.type === "users"
-  ) {
-
-    users.innerHTML = "";
-
-
-    data.users.forEach(
-      username => {
-
-
-        /* Don't show myself */
+    try {
+
+        /*
+            If private chat is open,
+            don't load group messages.
+        */
 
         if (
-          username === myName
+            selectedUser !== null
         ) {
 
-          return;
+            return;
 
         }
 
 
-        users.innerHTML += `
-
-          <li
-            onclick="openPrivateChat('${username}')"
-          >
-
-            👤 ${username}
-
-          </li>
-
-        `;
-
-      }
-    );
-
-  }
+        const response =
+            await fetch(
+                "/messages"
+            );
 
 
-  /* ============================================== */
-  /* ================= TYPING ===================== */
-  /* ============================================== */
+        if (!response.ok) {
+
+            console.log(
+                "Failed to load messages"
+            );
+
+            return;
+
+        }
 
 
-  if (
-    data.type === "typing"
-  ) {
+        const messages =
+            await response.json();
 
 
-    /* Public chat */
-
-    if (!selectedUser) {
-
-      typing.innerText =
-        `${data.user} is typing...`;
-
-    }
+        chat.innerHTML = "";
 
 
-    /* Private chat */
+        messages.forEach(
+            message => {
 
-    else if (
-      data.user === selectedUser
-    ) {
+                /*
+                    GROUP CHAT ONLY
 
-      typing.innerText =
-        `${data.user} is typing...`;
+                    receiver must be NULL.
+                */
 
-    }
+                if (
+                    message.receiver !== null &&
+                    message.receiver !== undefined
+                ) {
 
+                    return;
 
-    setTimeout(
-      () => {
-
-        typing.innerText = "";
-
-      },
-      1000
-    );
-
-  }
+                }
 
 
-  /* ============================================== */
-  /* ================ PUBLIC MESSAGE ============== */
-  /* ============================================== */
+                /* =====================================
+                   PUBLIC TEXT
+                ===================================== */
+
+                if (
+                    message.message_type === "text"
+                ) {
+
+                    chat.innerHTML += `
+
+                        <p>
+
+                            <b>
+                                ${escapeHtml(
+                                    message.sender
+                                )}
+                            </b>
+
+                            ${escapeHtml(
+                                message.message
+                            )}
+
+                        </p>
+
+                    `;
+
+                    return;
+
+                }
 
 
-  if (
-    data.type === "message"
-  ) {
+                /* =====================================
+                   PUBLIC IMAGE
+                ===================================== */
+
+                if (
+                    message.message_type === "image"
+                ) {
+
+                    chat.innerHTML +=
+                        renderImage(
+
+                            message.message,
+
+                            message.sender,
+
+                            message.sender === myName
+
+                        );
+
+                    return;
+
+                }
+
+            }
+        );
 
 
-    /* Don't show public message
-       inside private chat */
-
-    if (selectedUser) {
-
-      return;
-
-    }
-
-
-    chat.innerHTML += `
-
-      <p>
-
-        <b>
-          ${data.user}
-        </b>
-
-        ${data.text}
-
-      </p>
-
-    `;
-
-
-    chat.scrollTop =
-      chat.scrollHeight;
-
-  }
-
-
-  /* ============================================== */
-  /* ================ PRIVATE MESSAGE ============= */
-  /* ============================================== */
-
-
-  if (
-    data.type === "private"
-  ) {
-
-
-    /* Private chat isn't open */
-
-    if (!selectedUser) {
-
-      return;
+        scrollChat();
 
     }
 
+    catch (error) {
 
-    /* Message came from
-       currently selected user */
+        console.log(
+            "Error loading messages:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD PRIVATE MESSAGES
+========================================================= */
+
+async function loadPrivateMessages(
+    username
+) {
+
+    try {
+
+        /*
+            current_user = logged in user
+
+            username = selected user
+        */
+
+        const response =
+            await fetch(
+
+                `/private-messages/${
+                    encodeURIComponent(username)
+                }?current_user=${
+                    encodeURIComponent(myName)
+                }`
+
+            );
+
+
+        if (!response.ok) {
+
+            console.log(
+                "Failed to load private messages"
+            );
+
+            return;
+
+        }
+
+
+        const messages =
+            await response.json();
+
+
+        /*
+            User may have switched
+            chat while request was running.
+        */
+
+        if (
+            selectedUser !== username
+        ) {
+
+            return;
+
+        }
+
+
+        chat.innerHTML = "";
+
+
+        messages.forEach(
+            message => {
+
+                /*
+                    EXACT PRIVATE CONVERSATION
+
+                    Himanshu -> Rahul
+                    Rahul   -> Himanshu
+
+                    Other conversations
+                    are ignored.
+                */
+
+                const validConversation =
+
+                    (
+
+                        message.sender === myName &&
+
+                        message.receiver === username
+
+                    )
+
+                    ||
+
+                    (
+
+                        message.sender === username &&
+
+                        message.receiver === myName
+
+                    );
+
+
+                if (
+                    !validConversation
+                ) {
+
+                    return;
+
+                }
+
+
+                /* =====================================
+                   PRIVATE TEXT
+                ===================================== */
+
+                if (
+                    message.message_type === "private"
+                ) {
+
+                    /*
+                        MY MESSAGE
+                    */
+
+                    if (
+                        message.sender === myName
+                    ) {
+
+                        chat.innerHTML += `
+
+                            <div
+                                class="message-row message-right"
+                            >
+
+                                <div
+                                    class="message-bubble"
+                                >
+
+                                    <span
+                                        class="message-sender"
+                                    >
+                                        You
+                                    </span>
+
+                                    <span
+                                        class="message-text"
+                                    >
+                                        ${escapeHtml(
+                                            message.message
+                                        )}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    /*
+                        OTHER USER MESSAGE
+                    */
+
+                    else {
+
+                        chat.innerHTML += `
+
+                            <div
+                                class="message-row message-left"
+                            >
+
+                                <div
+                                    class="message-bubble"
+                                >
+
+                                    <span
+                                        class="message-sender"
+                                    >
+                                        ${escapeHtml(
+                                            message.sender
+                                        )}
+                                    </span>
+
+                                    <span
+                                        class="message-text"
+                                    >
+                                        ${escapeHtml(
+                                            message.message
+                                        )}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    return;
+
+                }
+
+
+                /* =====================================
+                   PRIVATE IMAGE
+                ===================================== */
+
+                if (
+                    message.message_type ===
+                    "private_image"
+                ) {
+
+                    chat.innerHTML +=
+                        renderImage(
+
+                            message.message,
+
+                            message.sender,
+
+                            message.sender === myName
+
+                        );
+
+                    return;
+
+                }
+
+            }
+        );
+
+
+        scrollChat();
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "Error loading private messages:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN PRIVATE CHAT
+========================================================= */
+
+async function openPrivateChat(
+    username
+) {
+
+    /*
+        Don't allow own chat.
+    */
 
     if (
-      data.from === selectedUser
+        username === myName
     ) {
 
-      chat.innerHTML += `
-
-        <div class="message-row message-left">
-
-          <div class="message-bubble">
-
-            <span class="message-sender">
-              ${data.from}
-            </span>
-
-            <span class="message-text">
-              ${data.text}
-            </span>
-
-          </div>
-
-        </div>
-
-      `;
-
-
-      chat.scrollTop =
-        chat.scrollHeight;
+        return;
 
     }
 
-  }
+
+    /*
+        Set selected user.
+    */
+
+    selectedUser =
+        username;
 
 
-  /* ============================================== */
-  /* ================= IMAGE ======================= */
-  /* ============================================== */
+    /*
+        Change title.
+    */
+
+    mainTitle.innerText =
+        "Private Chat";
 
 
-  if (
-    data.type === "image"
-  ) {
+    /*
+        Show username.
+    */
+
+    privateUserName.innerText =
+        username;
 
 
-    /* Public image */
+    /*
+        Show private header.
+    */
 
-    if (!selectedUser) {
-
-      chat.innerHTML += `
-
-        <p>
-
-          <b>
-            ${data.user}
-          </b>
-
-          <br>
-
-          <img
-            src="${data.data}"
-            width="150"
-          >
-
-        </p>
-
-      `;
+    privateHeader.style.display =
+        "flex";
 
 
-      chat.scrollTop =
-        chat.scrollHeight;
+    /*
+        Hide online users.
+    */
 
-    }
+    document
+        .querySelector(".users-bar")
+        .style.display =
+        "none";
 
-  }
+
+    /*
+        Clear typing.
+    */
+
+    typing.innerText = "";
+
+
+    /*
+        Clear old messages.
+    */
+
+    chat.innerHTML = "";
+
+
+    /*
+        Load ONLY selected
+        user's conversation.
+    */
+
+    await loadPrivateMessages(
+        username
+    );
+
+
+    msg.focus();
+
+}
+
+
+/* =========================================================
+   BACK TO PUBLIC
+========================================================= */
+
+async function backToPublic() {
+
+    /*
+        Group mode.
+    */
+
+    selectedUser = null;
+
+
+    /*
+        Change title.
+    */
+
+    mainTitle.innerText =
+        "Realtime Chat";
+
+
+    /*
+        Hide private header.
+    */
+
+    privateHeader.style.display =
+        "none";
+
+
+    /*
+        Show users.
+    */
+
+    document
+        .querySelector(".users-bar")
+        .style.display =
+        "flex";
+
+
+    /*
+        Clear typing.
+    */
+
+    typing.innerText = "";
+
+
+    /*
+        Clear private messages.
+    */
+
+    chat.innerHTML = "";
+
+
+    /*
+        Load group messages.
+    */
+
+    await loadMessages();
+
+
+    msg.focus();
+
+}
+
+
+/* =========================================================
+   WEBSOCKET
+========================================================= */
+
+const ws =
+    new WebSocket(
+
+        `ws://${location.hostname}:8000/ws?token=${
+            encodeURIComponent(token)
+        }`
+
+    );
+
+
+/* =========================================================
+   INITIAL PUBLIC LOAD
+========================================================= */
+
+loadMessages();
+
+
+/* =========================================================
+   WEBSOCKET OPEN
+========================================================= */
+
+ws.onopen = () => {
+
+    console.log(
+        "WebSocket connected"
+    );
 
 };
 
 
-/* ================================================= */
-/* ================= SEND MESSAGE ================== */
-/* ================================================= */
+/* =========================================================
+   WEBSOCKET CLOSE
+========================================================= */
 
+ws.onclose = () => {
+
+    console.log(
+        "WebSocket closed"
+    );
+
+};
+
+
+/* =========================================================
+   WEBSOCKET ERROR
+========================================================= */
+
+ws.onerror = error => {
+
+    console.error(
+        "WebSocket error:",
+        error
+    );
+
+};
+
+
+/* =========================================================
+   RECEIVE MESSAGE
+========================================================= */
+
+ws.onmessage = e => {
+
+    const data =
+        JSON.parse(e.data);
+
+
+    /* =====================================================
+       ONLINE USERS
+    ===================================================== */
+
+    if (
+        data.type === "users"
+    ) {
+
+        users.innerHTML = "";
+
+
+        data.users.forEach(
+            username => {
+
+                /*
+                    Don't show myself.
+                */
+
+                if (
+                    username === myName
+                ) {
+
+                    return;
+
+                }
+
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                li.innerHTML =
+                    `👤 ${
+                        escapeHtml(username)
+                    }`;
+
+
+                li.onclick =
+                    () => {
+
+                        openPrivateChat(
+                            username
+                        );
+
+                    };
+
+
+                users.appendChild(
+                    li
+                );
+
+            }
+        );
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       TYPING
+    ===================================================== */
+
+    if (
+        data.type === "typing"
+    ) {
+
+        /*
+            GROUP TYPING
+        */
+
+        if (
+            selectedUser === null
+        ) {
+
+            if (
+                data.user !== myName
+            ) {
+
+                typing.innerText =
+                    `${
+                        escapeHtml(
+                            data.user
+                        )
+                    } is typing...`;
+
+            }
+
+        }
+
+
+        /*
+            PRIVATE TYPING
+
+            Only selected user.
+        */
+
+        else if (
+            data.user === selectedUser
+        ) {
+
+            typing.innerText =
+                `${
+                    escapeHtml(
+                        data.user
+                    )
+                } is typing...`;
+
+        }
+
+
+        setTimeout(
+            () => {
+
+                typing.innerText = "";
+
+            },
+            1000
+        );
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       PUBLIC TEXT MESSAGE
+    ===================================================== */
+
+    if (
+        data.type === "message"
+    ) {
+
+        /*
+            IMPORTANT:
+
+            If private chat is open,
+            DON'T show group message.
+        */
+
+        if (
+            selectedUser !== null
+        ) {
+
+            return;
+
+        }
+
+
+        chat.innerHTML += `
+
+            <p>
+
+                <b>
+                    ${escapeHtml(
+                        data.user
+                    )}
+                </b>
+
+                ${escapeHtml(
+                    data.text
+                )}
+
+            </p>
+
+        `;
+
+
+        scrollChat();
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       PRIVATE TEXT MESSAGE
+    ===================================================== */
+
+    if (
+        data.type === "private"
+    ) {
+
+        /*
+            Private message must
+            NEVER appear in group chat.
+        */
+
+        if (
+            selectedUser === null
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+            EXACT CONVERSATION CHECK
+        */
+
+        const isMyConversation =
+
+            (
+
+                data.from === myName &&
+
+                data.to === selectedUser
+
+            )
+
+            ||
+
+            (
+
+                data.from === selectedUser &&
+
+                data.to === myName
+
+            );
+
+
+        if (
+            !isMyConversation
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+            Sender already rendered
+            message locally.
+
+            So don't duplicate.
+        */
+
+        if (
+            data.from === myName
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+            Receiver gets message.
+        */
+
+        chat.innerHTML += `
+
+            <div
+                class="message-row message-left"
+            >
+
+                <div
+                    class="message-bubble"
+                >
+
+                    <span
+                        class="message-sender"
+                    >
+                        ${escapeHtml(
+                            data.from
+                        )}
+                    </span>
+
+                    <span
+                        class="message-text"
+                    >
+                        ${escapeHtml(
+                            data.text
+                        )}
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        scrollChat();
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       PUBLIC IMAGE
+    ===================================================== */
+
+    if (
+        data.type === "image"
+    ) {
+
+        /*
+            Public image belongs
+            ONLY to group chat.
+        */
+
+        if (
+            selectedUser !== null
+        ) {
+
+            return;
+
+        }
+
+
+        chat.innerHTML +=
+            renderImage(
+
+                data.data,
+
+                data.user,
+
+                data.user === myName
+
+            );
+
+
+        scrollChat();
+
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       PRIVATE IMAGE
+    ===================================================== */
+
+    if (
+        data.type === "private_image"
+    ) {
+
+        /*
+            NEVER show private image
+            in group chat.
+        */
+
+        if (
+            selectedUser === null
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+            EXACT PRIVATE CONVERSATION
+
+            Himanshu -> Rahul
+            Rahul   -> Himanshu
+
+            Only these are allowed.
+        */
+
+        const isMyConversation =
+
+            (
+
+                data.from === myName &&
+
+                data.to === selectedUser
+
+            )
+
+            ||
+
+            (
+
+                data.from === selectedUser &&
+
+                data.to === myName
+
+            );
+
+
+        if (
+            !isMyConversation
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+            Sender already rendered
+            image locally.
+
+            Don't duplicate.
+        */
+
+        if (
+            data.from === myName
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+            Receiver gets private image.
+        */
+
+        chat.innerHTML +=
+            renderImage(
+
+                data.data,
+
+                data.from,
+
+                false
+
+            );
+
+
+        scrollChat();
+
+
+        return;
+
+    }
+
+};
+
+
+/* =========================================================
+   SEND TEXT MESSAGE
+========================================================= */
 
 function send() {
 
-  const text =
-    msg.value.trim();
+    const text =
+        msg.value.trim();
 
 
-  if (!text) {
+    if (!text) {
 
-    return;
+        return;
 
-  }
-
-
-  /* Check WebSocket */
-
-  if (
-    ws.readyState !==
-    WebSocket.OPEN
-  ) {
-
-    alert(
-      "Connection lost. Refresh page."
-    );
-
-    return;
-
-  }
+    }
 
 
-  /* ============================================== */
-  /* ================ PRIVATE ===================== */
-  /* ============================================== */
-
-
-  if (selectedUser) {
-
-
-    /* Send to selected user */
-
-    ws.send(
-
-      JSON.stringify({
-
-        type: "private",
-
-        to: selectedUser,
-
-        data: text
-
-      })
-
-    );
-
-
-    /* Show my message
-       immediately on RIGHT */
-
-    chat.innerHTML += `
-
-      <div class="message-row message-right">
-
-        <div class="message-bubble">
-
-          <span class="message-sender">
-            You
-          </span>
-
-          <span class="message-text">
-            ${text}
-          </span>
-
-        </div>
-
-      </div>
-
-    `;
-
-
-    chat.scrollTop =
-      chat.scrollHeight;
-
-  }
-
-
-  /* ============================================== */
-  /* ================= PUBLIC ===================== */
-  /* ============================================== */
-
-
-  else {
-
-    ws.send(
-
-      JSON.stringify({
-
-        type: "message",
-
-        data: text
-
-      })
-
-    );
-
-  }
-
-
-  /* Clear input */
-
-  msg.value = "";
-
-}
-
-
-/* ================================================= */
-/* ================= TYPING ======================== */
-/* ================================================= */
-
-
-msg.addEventListener(
-  "input",
-  () => {
-
+    /*
+        WebSocket check.
+    */
 
     if (
-      ws.readyState ===
-      WebSocket.OPEN
+        ws.readyState !==
+        WebSocket.OPEN
     ) {
 
-      ws.send(
+        alert(
+            "Connection lost. Refresh page."
+        );
 
-        JSON.stringify({
-
-          type: "typing"
-
-        })
-
-      );
+        return;
 
     }
 
-  }
-);
 
-
-/* ================================================= */
-/* ================ ENTER TO SEND ================= */
-/* ================================================= */
-
-
-msg.addEventListener(
-  "keydown",
-  e => {
+    /* =====================================================
+       PRIVATE MESSAGE
+    ===================================================== */
 
     if (
-      e.key === "Enter"
+        selectedUser !== null
     ) {
 
-      send();
+        ws.send(
+            JSON.stringify({
 
-    }
+                type: "private",
 
-  }
-);
+                to: selectedUser,
 
+                data: text
 
-/* ================================================= */
-/* ================= SEND IMAGE ==================== */
-/* ================================================= */
-
-
-function sendImage(input) {
-
-  const file =
-    input.files[0];
+            })
+        );
 
 
-  if (!file) {
+        /*
+            Show my message immediately
+            ONLY in private chat.
+        */
 
-    return;
+        chat.innerHTML += `
 
-  }
+            <div
+                class="message-row message-right"
+            >
 
+                <div
+                    class="message-bubble"
+                >
 
-  /* WebSocket check */
+                    <span
+                        class="message-sender"
+                    >
+                        You
+                    </span>
 
-  if (
-    ws.readyState !==
-    WebSocket.OPEN
-  ) {
+                    <span
+                        class="message-text"
+                    >
+                        ${escapeHtml(
+                            text
+                        )}
+                    </span>
 
-    alert(
-      "Connection lost. Refresh page."
-    );
+                </div>
 
-    return;
+            </div>
 
-  }
-
-
-  const reader =
-    new FileReader();
-
-
-  reader.onload = () => {
-
-
-    /* ============================================ */
-    /* ============== PRIVATE IMAGE ============== */
-    /* ============================================ */
+        `;
 
 
-    if (selectedUser) {
-
-      ws.send(
-
-        JSON.stringify({
-
-          type: "private",
-
-          to: selectedUser,
-
-          data: reader.result
-
-        })
-
-      );
+        scrollChat();
 
     }
 
 
-    /* ============================================ */
-    /* ================ PUBLIC IMAGE ============== */
-    /* ============================================ */
-
+    /* =====================================================
+       PUBLIC MESSAGE
+    ===================================================== */
 
     else {
 
-      ws.send(
+        ws.send(
+            JSON.stringify({
 
-        JSON.stringify({
+                type: "message",
 
-          type: "image",
+                data: text
 
-          data: reader.result
-
-        })
-
-      );
+            })
+        );
 
     }
 
-  };
 
-
-  reader.readAsDataURL(file);
-
-
-  /* Reset file input */
-
-  input.value = "";
+    msg.value = "";
 
 }
 
 
-/* ================================================= */
-/* ================= LOGOUT ======================== */
-/* ================================================= */
+/* =========================================================
+   TYPING
+========================================================= */
 
+msg.addEventListener(
+    "input",
+    () => {
+
+        if (
+            ws.readyState !==
+            WebSocket.OPEN
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+            PRIVATE TYPING
+        */
+
+        if (
+            selectedUser !== null
+        ) {
+
+            ws.send(
+                JSON.stringify({
+
+                    type: "typing",
+
+                    to: selectedUser
+
+                })
+            );
+
+        }
+
+
+        /*
+            GROUP TYPING
+        */
+
+        else {
+
+            ws.send(
+                JSON.stringify({
+
+                    type: "typing"
+
+                })
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ENTER TO SEND
+========================================================= */
+
+msg.addEventListener(
+    "keydown",
+    e => {
+
+        if (
+            e.key === "Enter"
+        ) {
+
+            e.preventDefault();
+
+            send();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SEND IMAGE
+========================================================= */
+
+function sendImage(input) {
+
+    const file =
+        input.files[0];
+
+
+    if (!file) {
+
+        return;
+
+    }
+
+
+    /*
+        Only images.
+    */
+
+    if (
+        !file.type.startsWith(
+            "image/"
+        )
+    ) {
+
+        alert(
+            "Please select an image."
+        );
+
+        input.value = "";
+
+        return;
+
+    }
+
+
+    /*
+        WebSocket check.
+    */
+
+    if (
+        ws.readyState !==
+        WebSocket.OPEN
+    ) {
+
+        alert(
+            "Connection lost. Refresh page."
+        );
+
+        input.value = "";
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = () => {
+
+
+        /* =================================================
+           PRIVATE IMAGE
+        ================================================= */
+
+        if (
+            selectedUser !== null
+        ) {
+
+            /*
+                IMPORTANT:
+
+                private_image
+
+                NOT
+
+                image
+
+                because image is public.
+            */
+
+            ws.send(
+                JSON.stringify({
+
+                    type: "private_image",
+
+                    to: selectedUser,
+
+                    data: reader.result
+
+                })
+            );
+
+
+            /*
+                Show my image immediately
+                ONLY in private chat.
+            */
+
+            chat.innerHTML +=
+                renderImage(
+
+                    reader.result,
+
+                    myName,
+
+                    true
+
+                );
+
+
+            scrollChat();
+
+        }
+
+
+        /* =================================================
+           PUBLIC IMAGE
+        ================================================= */
+
+        else {
+
+            ws.send(
+                JSON.stringify({
+
+                    type: "image",
+
+                    data: reader.result
+
+                })
+            );
+
+        }
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+
+    /*
+        Reset file input.
+    */
+
+    input.value = "";
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
 
 function logout() {
 
+    if (
+        ws &&
+        ws.readyState ===
+        WebSocket.OPEN
+    ) {
 
-  if (
-    ws &&
-    ws.readyState ===
-    WebSocket.OPEN
-  ) {
+        ws.close();
 
-    ws.close();
-
-  }
-
-
-  localStorage.removeItem(
-    "token"
-  );
+    }
 
 
-  window.location =
-    "/static/auth.html";
+    localStorage.removeItem(
+        "token"
+    );
+
+
+    window.location =
+        "/static/auth.html";
 
 }
 
 </script>
+```
 
 
 </body>
